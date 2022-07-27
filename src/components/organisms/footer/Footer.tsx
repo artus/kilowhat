@@ -1,10 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useNavigationManager } from "../../../hooks/useNavigationManager";
 import { colors } from "../../../styles/Colors";
-import { sizing } from "../../../styles/Sizing";
-import { CreateButton } from "../../atoms/create-button/CreateButton";
 import { FooterButton } from "../../atoms/buttons/FooterButton";
 
 export const Footer: React.FC = () => {
@@ -18,13 +15,14 @@ export const Footer: React.FC = () => {
     />
     <View style={styles.footer}>
       <FooterButton
-        icon="list-outline"
-        onPress={() => { navigationManager.toUnits(); }}
+        icon="add-circle-outline"
+        onPress={() => { navigationManager.toCreateMeter(); }}
+        text="Add meter"
       />
-      <CreateButton />
       <FooterButton
         icon="list-outline"
         onPress={() => { navigationManager.toUnits(); }}
+        text="Units"
       />
     </View>
   </View>
@@ -35,17 +33,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: 20,
-    bottom: 85
+    bottom: 60 
   },
   footerBackground: {
     flexDirection: "column",
     position: "relative",
     width: "100%",
-    height: 85,
+    height: 60,
     backgroundColor: colors.background
   },
   footer: {
-    top: 25,
+    top: 5,
     position: "absolute",
     alignItems: 'center',
     alignSelf: 'flex-end',

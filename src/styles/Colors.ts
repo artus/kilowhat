@@ -3,7 +3,7 @@ export const colors = {
   highlight: "#a9bcd0", 
   foreground: "#58a4b0", 
   active: "#373f51", 
-  footerBackground: "#0400AF",
+  footerBackground: "#2B3B4E",
   footerCreateButton: "#5CBCF2",
   background: "white", //"#EDF1FA",
   white: '#FFF',
