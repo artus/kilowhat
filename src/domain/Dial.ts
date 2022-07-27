@@ -1,18 +1,35 @@
 import { Reading } from "./Reading";
 import { Unit } from "./Unit";
-import { chainable } from "valivalue";
+import { dialNameValidator, dialReadingsValidator, dialUnitValidator } from "./validators/DialValidators";
+import { idValidator } from "./validators/IdValidator";
 
 export class Dial {
 
   constructor(
+    readonly id: string,
     readonly name: string,
     readonly unit: Unit,
-    readonly readings: Reading[] = []
+    public readings: Reading[] = []
   ) {
-    chainable(true)
-      .objects.validateNotNullOrUndefined(name, 'Dial name')
-      .objects.validateNotNullOrUndefined(unit, 'Dial unit')
-      .objects.validateNotNullOrUndefined(readings, 'Dial readings')
-      .strings.validateMinAndMaxLength(name, 1, 64, "Dial name");
+    idValidator(id);
+    dialNameValidator(name);
+    dialUnitValidator(unit);
+    dialReadingsValidator(readings)
+  }
+
+  hasReadings(): boolean {
+    return this.readings.length > 0;
+  }
+
+  getLatestReading(): Reading {
+    return this.readings.sort(
+      (readingA, readingB) => readingB.timestamp.toUnixInteger() - readingA.timestamp.toUnixInteger()
+    )[0];
+  }
+
+  removeReading(reading: Reading): void {
+    this.readings = this.readings.filter(currentReading => {
+      return currentReading.id !== reading.id
+    });
   }
 }

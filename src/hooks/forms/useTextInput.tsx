@@ -34,7 +34,7 @@ export const useTextInput = ({
     onChange={formValue.onChange}
     placeholder={placeholder}
     isPassword={isPassword}
-    error={formValue.error}
+    error={formValue.touched ? formValue.error : ''}
   />
 
   return new FormInput(

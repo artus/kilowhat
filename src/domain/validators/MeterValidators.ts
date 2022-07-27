@@ -1,9 +1,9 @@
 import { chainable } from "valivalue";
-import { Dial } from "../../Dial";
+import { Dial } from "../Dial";
 
 export const meterNameValidator = (name: string) => chainable(true)
   .objects.validateNotNullOrUndefined(name, 'Meter name')
-  .strings.validateMinAndMaxLength(name, 1, 64, 'Meter name');
+  .strings.validateMinAndMaxLength(name, 1, 32, 'Meter name');
 
 export const meterDescriptionValidator = (description: string) => chainable(true)
   .objects.validateNotNullOrUndefined(description, 'Meter description')

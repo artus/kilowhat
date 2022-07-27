@@ -1,12 +1,17 @@
 import { DateTime } from "luxon";
 import valivalue from "valivalue";
+import { idValidator } from "./validators/IdValidator";
+import { readingTimestampValidator, readingValueValidator } from "./validators/ReadingValidators";
 
 export class Reading {
 
   constructor(
+    readonly id: string,
     readonly value: number,
     readonly timestamp: DateTime
   ) {
-    valivalue.objects.validateNotNull(timestamp, 'Timestamp');
+    idValidator(id);
+    readingValueValidator(value);
+    readingTimestampValidator(timestamp);
   }
 }

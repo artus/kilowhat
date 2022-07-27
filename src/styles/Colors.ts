@@ -8,9 +8,11 @@ export const colors = {
   background: "white", //"#EDF1FA",
   white: '#FFF',
   black: '#000',
+  lightBlack: '#313237',
   textInput: 'lightgrey',
   buttons: {
-    green: "#02C954"
+    green: "#02C954",
+    orange: "orange"
   },
   error: "#D83028",
   gray: 'gray',

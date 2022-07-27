@@ -1,17 +1,20 @@
-import { useNavigation } from "@react-navigation/native"
 import { Meter } from "../../../domain/Meter"
-import { meterDescriptionValidator, meterNameValidator } from "../../../domain/validators/meter/MeterValidators"
+import { meterDescriptionValidator, meterNameValidator } from "../../../domain/validators/MeterValidators"
 import { useSubmitButton } from "../../../hooks/forms/useSubmitButton"
 import { useTextInput } from "../../../hooks/forms/useTextInput"
 import { useMeterManager } from "../../../hooks/useMeterManager"
 import { useNavigationManager } from "../../../hooks/useNavigationManager"
 import { Card } from "../../atoms/card/Card"
-import { CardTitle } from "../../molecules/card-title/CardTitle"
+import { v4 as uuidv4 } from 'uuid';
+import { useState } from "react"
+import { ErrorMessage } from "../../atoms/text/ErrorMessage"
+import { showSuccessToast } from "../../../helpers/ToastHelper"
 
 export const CreateMeterForm: React.FC = () => {
 
   const { addMeter } = useMeterManager();
   const navigationManager = useNavigationManager();
+  const [error, setError] = useState<string>();
 
   const nameInput = useTextInput({
     isRequired: true,
@@ -20,7 +23,7 @@ export const CreateMeterForm: React.FC = () => {
       meterNameValidator(name);
       return name
     },
-    validateInitially: false
+    placeholder: 'Electricity meter'
   });
 
   const descriptionInput = useTextInput({
@@ -29,18 +32,26 @@ export const CreateMeterForm: React.FC = () => {
     validator: (description: string) => {
       meterDescriptionValidator(description);
       return description;
-    }
+    },
+    placeholder: 'The electricity meter in our basement.'
   });
 
   const onClick = async (stopLoading: () => void) => {
-    const meter = new Meter(
-      nameInput.formValue.value!,
-      descriptionInput.formValue.value!
-    );
+    const name = nameInput.formValue.value!;
+    try {
+      const meter = new Meter(
+        uuidv4(),
+        nameInput.formValue.value!,
+        descriptionInput.formValue.value!
+      );
 
-    addMeter(meter);
+      addMeter(meter);
+      navigationManager.toCreateDial(meter);
+      showSuccessToast(`Created meter ${name}`);
+    } catch (error) {
+      setError((error as Error).message);
+    }
     stopLoading();
-    navigationManager.toRoot();
   };
 
   const createMeterButton = useSubmitButton({
@@ -50,6 +61,7 @@ export const CreateMeterForm: React.FC = () => {
   });
 
   return <Card>
+    {error && <ErrorMessage>{error}</ErrorMessage>}
     {nameInput.jsx}
     {descriptionInput.jsx}
     {createMeterButton.jsx}

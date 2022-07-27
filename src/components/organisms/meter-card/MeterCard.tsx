@@ -1,10 +1,13 @@
 import { Alert, StyleSheet, Text, View } from "react-native"
 import { Meter } from "../../../domain/Meter"
+import { showSuccessToast } from "../../../helpers/ToastHelper"
 import { useMenuManager } from "../../../hooks/useMenuManager"
+import { useMeterManager } from "../../../hooks/useMeterManager"
+import { useNavigationManager } from "../../../hooks/useNavigationManager"
 import { sizing } from "../../../styles/Sizing"
 import { Card } from "../../atoms/card/Card"
-import { Title } from "../../atoms/text/Title"
 import { CardTitle } from "../../molecules/card-title/CardTitle"
+import { DialInfo } from "../dial-info/DialInfo"
 
 interface MeterCardProps {
   meter: Meter
@@ -15,20 +18,26 @@ export const MeterCard: React.FC<MeterCardProps> = ({
 }: MeterCardProps) => {
 
   const menuManager = useMenuManager();
+  const meterManager = useMeterManager();
+  const navigationManager = useNavigationManager();
 
   const removeMeter = () => {
     Alert.alert(
-      `Remove meter ${meter.name}`, 
+      `Remove meter ${meter.name}`,
       'Are you sure you want to remove this meter?',
       [
-        { text: 'Remove', style: 'destructive', onPress: () => { alert('remove'); }},
-        { text: 'Cancel', style: 'cancel'}
+        { text: 'Remove', style: 'destructive', onPress: () => { 
+          meterManager.removeMeter(meter);
+          showSuccessToast(`Removed meter '${meter.name}'`);
+        } },
+        { text: 'Cancel', style: 'cancel' }
       ]
-      )
+    );
   }
 
   const menuEntries = [
-    { text: "Add dial", onClick: () => alert('reee') },
+    { text: "Add dial", onClick: () => navigationManager.toCreateDial(meter) },
+    { text: "Edit meter", onClick: () => navigationManager.toUpdateMeter(meter) },
     { text: "Remove meter", onClick: removeMeter }
   ]
 
@@ -37,10 +46,15 @@ export const MeterCard: React.FC<MeterCardProps> = ({
       <CardTitle
         title={meter.name}
         onClick={() => { menuManager.show(menuEntries) }}
+        onTitlePress={() => { navigationManager.toMeter(meter); }}
       />
       {
         meter.dials.length
-          ? <Text>dials added, but no component yet.</Text>
+          ? meter.dials.map((dial, index) => <DialInfo
+            dial={dial}
+            key={dial.id}
+            isLast={index === meter.dials.length - 1}
+          />)
           : <Text>No dials added yet.</Text>
       }
     </View>
@@ -51,4 +65,4 @@ const styles = StyleSheet.create({
   meterCard: {
     padding: sizing.padding.small
   }
-})
+});

@@ -7,6 +7,8 @@ const initialState = {
   loading: true,
   meters: [] as Meter[],
   addMeter: (meter: Meter) => {},
+  removeMeter: (meter: Meter) => {},
+  updateMeter: (meter: Meter) => {},
   persist: () => {}
 }
 
@@ -34,6 +36,20 @@ const useMeterManagerImpl = () => {
     setMeters([...meters, meter]);
   }
 
+  const updateMeter = async (meter: Meter) => {
+    const updatedMeters = meters.map(currentMeter => {
+      if (currentMeter.id === meter.id) {
+        return meter;
+      }
+      return currentMeter;
+    });
+    setMeters(updatedMeters)
+  }
+
+  const removeMeter = async (meter: Meter) => {
+    setMeters(meters.filter(currentMeter => currentMeter.id !== meter.id));
+  }
+
   const persist = async () => {
     save(meters);
   }
@@ -41,6 +57,8 @@ const useMeterManagerImpl = () => {
   return {
     meters, 
     addMeter,
+    updateMeter,
+    removeMeter,
     persist,
     loading: isInitialLoad
   };

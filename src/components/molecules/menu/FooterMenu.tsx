@@ -1,6 +1,5 @@
 import { StyleSheet, View } from "react-native";
 import { useMenuManager } from "../../../hooks/useMenuManager";
-import { colors } from "../../../styles/Colors";
 import { MenuEntry } from "../../atoms/menu/MenuEntry";
 import { FadedOverlay } from "../../atoms/overlay/FadedOverlay";
 import { FooterPopup } from "../../atoms/popups/FooterPopup";

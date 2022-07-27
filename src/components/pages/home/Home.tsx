@@ -1,7 +1,7 @@
+import { useMemo, useState } from "react";
 import { Text, View } from "react-native";
-import { Meter } from "../../../domain/Meter";
 import { useMeterManager } from "../../../hooks/useMeterManager";
-import { TopSpacer } from "../../atoms/spacers/TopSpacer";
+import { SearchBar } from "../../molecules/search-bar/SearchBar";
 import { MeterCard } from "../../organisms/meter-card/MeterCard";
 import { PageContainer } from "../../templates/page-container/PageContainer";
 
@@ -9,10 +9,27 @@ export const Home: React.FC = () => {
 
   const { meters } = useMeterManager();
 
+  const [searchInput, setSearchInput] = useState('');
+
+  const visibleMeters = useMemo(() => {
+    if (!!searchInput) {
+      return meters.filter(meter => {
+        return meter.name.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0
+          || meter.description.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0
+      });
+    } else {
+      return meters;
+    }
+  }, [searchInput, meters]);
+
   return <PageContainer>
+    <SearchBar
+      onChange={setSearchInput}
+      value={searchInput}
+    />
     {
       meters.length
-        ? meters.map((meter, index) => {
+        ? visibleMeters.map((meter, index) => {
           return <MeterCard meter={meter} key={index} />
         })
         : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

@@ -7,14 +7,16 @@ interface ButtonProps {
   children: ReactNode,
   onClick: () => void | Promise<void>,
   onError?: (error: Error) => void | Promise<void>,
-  isEnabled?: boolean
+  isEnabled?: boolean,
+  color?: string
 }
 
 export const Button: React.FC<ButtonProps> = ({
   onClick,
   onError = () => { },
   isEnabled = true,
-  children
+  children,
+  color = colors.buttons.green
 }: ButtonProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,19 +34,19 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   return <View
-    style={styles(isEnabled).button}
+    style={styles(color, isEnabled).button}
     onTouchStart={onPress}
   >
     {children}
   </View>
 }
 
-const styles = (isEnabled: boolean) => StyleSheet.create({
+const styles = (color: string, isEnabled: boolean) => StyleSheet.create({
   button: {
     flex: 1,
     padding: sizing.padding.medium,
     margin: sizing.margin.small,
-    backgroundColor: colors.buttons.green,
+    backgroundColor: color,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",

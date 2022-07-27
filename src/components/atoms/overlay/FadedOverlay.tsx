@@ -1,4 +1,5 @@
-import { StyleSheet, View } from "react-native"
+import { useEffect, useRef } from "react";
+import { Animated, StyleSheet, View } from "react-native"
 import { colors } from "../../../styles/Colors";
 
 interface FadedOverlayProps {
@@ -8,16 +9,29 @@ interface FadedOverlayProps {
 export const FadedOverlay: React.FC<FadedOverlayProps> = ({
   onClick = () => { }
 }) => {
-  return <View
+
+  const fadeInAnimation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeInAnimation, {
+      toValue: 0.6,
+      duration: 200,
+      useNativeDriver: true
+    }).start();
+  }, [fadeInAnimation]);
+
+  return <Animated.View
     onTouchStart={onClick}
-    style={styles.fadedOverlay}
+    style={[
+      styles.fadedOverlay,
+      { opacity: fadeInAnimation }
+    ]}
   />
 }
 
 const styles = StyleSheet.create({
   fadedOverlay: {
     position: 'absolute',
-    opacity: 0.5,
     width: '100%',
     height: '100%',
     zIndex: 1,
