@@ -92,7 +92,8 @@ export const useFormValue = <T>({
   }, []);
 
   useEffect(() => {
-    if (!value && isRequired) {
+    const isZero = typeof value === 'number' && value === 0;
+    if (!isZero && !value && isRequired) {
       setError('Please enter a value');
     } else if (value) {
       validate(value, validator, setError);

@@ -21,10 +21,15 @@ export class Dial {
     return this.readings.length > 0;
   }
 
-  getLatestReading(): Reading {
+  getOrderedReadings(): Reading[] {
     return this.readings.sort(
-      (readingA, readingB) => readingB.timestamp.toUnixInteger() - readingA.timestamp.toUnixInteger()
-    )[0];
+      (readingA, readingB) => readingA.timestamp.toUnixInteger() - readingB.timestamp.toUnixInteger()
+    );
+  }
+
+  getLatestReading(): Reading {
+    const orderedReadings = this.getOrderedReadings();
+    return orderedReadings[orderedReadings.length - 1];
   }
 
   removeReading(reading: Reading): void {

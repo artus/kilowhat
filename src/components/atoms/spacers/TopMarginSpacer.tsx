@@ -3,7 +3,7 @@ import { MarginSpacer } from "./MarginSpacer"
 
 interface TopMarginSpacer {
   size?: number,
-  children: ReactNode
+  children?: ReactNode
 }
 
 export const TopMarginSpacer: React.FC<TopMarginSpacer> = ({

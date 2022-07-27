@@ -9,17 +9,19 @@ import { Meter } from "../../../domain/Meter";
 
 interface DialOverviewTitleProps {
   dial: Dial,
-  meter: Meter
+  meter: Meter,
+  isFirst?: boolean
 }
 
 export const DialOverviewTitle: React.FC<DialOverviewTitleProps> = ({
   dial,
-  meter
+  meter,
+  isFirst = false
 }) => {
 
   const navigationManager = useNavigationManager();
 
-  return <View style={styles.dialOverviewTitle}>
+  return <View style={styles(isFirst).dialOverviewTitle}>
     <DialTitle
       dial={dial}
       onTitlePress={() => { navigationManager.toDial(dial); }}
@@ -36,12 +38,11 @@ export const DialOverviewTitle: React.FC<DialOverviewTitleProps> = ({
   </View>
 }
 
-const styles = StyleSheet.create({
+const styles = (isFirst: boolean) => StyleSheet.create({
   dialOverviewTitle: {
-    marginLeft: sizing.margin.small,
-    marginRight: sizing.margin.small,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: isFirst ? 0 : sizing.margin.small
   }
 })

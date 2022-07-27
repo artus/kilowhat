@@ -31,16 +31,16 @@ export const ReadingCharacter: React.FC<ReadingCharacterProps> = ({
 const styles = StyleSheet.create({
   character: {
     padding: sizing.padding.extraSmall,
-    borderWidth: 1,
-    borderColor: colors.black,
-    borderRightWidth: 0
+    backgroundColor: colors.gray,
+    color: colors.white,
+    borderRightWidth: 1,
+    borderRightColor: colors.white
   },
   first: {
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5
   },
   last: {
-    borderRightWidth: 1,
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5
   }

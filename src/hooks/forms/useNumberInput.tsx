@@ -21,7 +21,7 @@ export const useNumberInput = ({
   const [quantity, setQuantity] = useState<string>(defaultValue + "");
 
   const getParsedQuantity = (): number => {
-    const parsedQuantity = parseFloat(quantity);
+    const parsedQuantity = parseFloat(quantity.replace(',', '.'));
     return isNaN(parsedQuantity) ? 0 : parsedQuantity;
   }
 

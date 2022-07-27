@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import valivalue from "valivalue";
 import { idValidator } from "./validators/IdValidator";
 import { readingTimestampValidator, readingValueValidator } from "./validators/ReadingValidators";
 

@@ -16,6 +16,7 @@ import { Reading } from "../../../domain/Reading"
 import { DateTime } from "luxon"
 import { TimestampInputField } from "../../atoms/input/TimestampInputField"
 import { Meter } from "../../../domain/Meter"
+import { ReadingComparison } from "../../molecules/reading-comparison/ReadingComparison"
 
 interface CreateReadingFormProps {
   dial: Dial,
@@ -49,7 +50,7 @@ export const CreateReadingForm: React.FC<CreateReadingFormProps> = ({
 
       dial.readings.push(reading);
       persist();
-      navigationManager.toMeter(meter);
+      navigationManager.back();
       showSuccessToast(`Added a new reading to dial ${dial.name}`);
     } catch (error) {
       setError((error as Error).message);
@@ -66,6 +67,10 @@ export const CreateReadingForm: React.FC<CreateReadingFormProps> = ({
   return <Card>
     {error && <ErrorMessage>{error}</ErrorMessage>}
     {valueInput.jsx}
+    <ReadingComparison
+      newValue={valueInput.formValue.value}
+      dial={dial}
+    />
     <TimestampInputField
       onChange={setTimestamp}
       defaultValue={timestamp}

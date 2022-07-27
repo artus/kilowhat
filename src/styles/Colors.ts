@@ -17,5 +17,11 @@ export const colors = {
   error: "#D83028",
   gray: 'gray',
   lightGray: 'lightgray',
-  extraLightGray: '#F6F6F6'
+  extraLightGray: '#F6F6F6',
+  charts: {
+    electricity: "#DF7920",
+    water: "#237AB7",
+    gas: "#F5B469",
+    other: "#8A42A8",
+  }
 }

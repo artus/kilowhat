@@ -1,34 +1,42 @@
-import { StyleSheet, Text, View } from "react-native"
 import { Dial } from "../../../domain/Dial"
 import { Meter } from "../../../domain/Meter"
 import { Card } from "../../atoms/card/Card"
-import { ReadingDisplay } from "../../molecules/reading-display/ReadingDisplay"
 import { DialOverviewTitle } from "../../molecules/dial-overview-title/DialOverviewTitle"
 import { MarginSpacer } from "../../atoms/spacers/MarginSpacer"
 import { sizing } from "../../../styles/Sizing"
-import { TopMarginSpacer } from "../../atoms/spacers/TopMarginSpacer"
+import { LatestReadingDisplay } from "../../molecules/reading-display/LatestReadingDisplay"
+import { LatestReadingChart } from "../../molecules/charts/LatestReadingsChart"
+import { TopSpacer } from "../../atoms/spacers/TopSpacer"
 
 interface DialOverviewProps {
   dial: Dial,
-  meter: Meter
+  meter: Meter,
+  isFirst?: boolean
 }
 
 export const DialOverview: React.FC<DialOverviewProps> = ({
   dial,
-  meter
+  meter,
+  isFirst = false
 }) => {
 
-  const latestReadingDisplay = dial.hasReadings()
-    ? <ReadingDisplay reading={dial.getLatestReading()} />
-    : <MarginSpacer size={sizing.margin.extraSmall}><Text>No readings yet.</Text></MarginSpacer>;
-
   return <Card>
-    <TopMarginSpacer size={sizing.margin.extraSmall}>
+    <MarginSpacer
+      size={sizing.margin.small}
+      bottom={false}
+    >
       <DialOverviewTitle
+        isFirst={isFirst}
         dial={dial}
         meter={meter}
       />
-    </TopMarginSpacer>
-    <MarginSpacer>{latestReadingDisplay}</MarginSpacer>
+    </MarginSpacer>
+    <MarginSpacer
+      size={sizing.margin.extraSmall}
+    >
+      <LatestReadingDisplay dial={dial} />
+      <LatestReadingChart dial={dial} />
+    </MarginSpacer>
+    <TopSpacer />
   </Card>
 }

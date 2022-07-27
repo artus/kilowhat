@@ -11,6 +11,7 @@ export const Card: React.FC = ({ children }) => {
 const styles = StyleSheet.create({
   card: {
     padding: sizing.padding.small,
+    paddingBottom: 0,
     backgroundColor: colors.white,
     margin: sizing.margin.medium,
     marginTop: 0,

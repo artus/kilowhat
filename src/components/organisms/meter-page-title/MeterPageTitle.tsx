@@ -1,10 +1,12 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { Meter } from "../../../domain/Meter"
 import { showSuccessToast } from "../../../helpers/ToastHelper";
 import { useMenuManager } from "../../../hooks/useMenuManager";
 import { useMeterManager } from "../../../hooks/useMeterManager";
 import { useNavigationManager } from "../../../hooks/useNavigationManager";
 import { sizing } from "../../../styles/Sizing";
+import { PaddingSpacer } from "../../atoms/spacers/PaddingSpacer";
+import { TopSpacer } from "../../atoms/spacers/TopSpacer";
 import { CardTitle } from "../../molecules/card-title/CardTitle";
 
 interface MeterPageTitleProps {
@@ -50,6 +52,11 @@ export const MeterPageTitle: React.FC<MeterPageTitleProps> = ({
       title={meter.name}
       onClick={() => menuManager.show(menuEntries)}
     />
+    {!!meter.description && <>
+      <PaddingSpacer>
+        <Text>{meter.description}</Text>
+      </PaddingSpacer>
+    </>}
   </View>
 }
 

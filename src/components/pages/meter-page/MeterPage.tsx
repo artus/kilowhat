@@ -28,6 +28,7 @@ export const MeterPage: React.FC<MeterPageProps> = ({
     {
       meter.dials.map((dial, index) => {
         return <DialOverview
+          isFirst={true}
           meter={meter}
           dial={dial}
           key={dial.id}

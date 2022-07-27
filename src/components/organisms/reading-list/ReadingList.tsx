@@ -39,7 +39,7 @@ export const ReadingList: React.FC<ReadingListProps> = ({ dial }) => {
   }
 
   return <>
-    {dialState.dial.readings.map((reading, index) => {
+    {dialState.dial.getOrderedReadings().map((reading, index) => {
       return <ListItem key={index}>
         <View style={styles.readingListItem}>
           <Text>{reading.timestamp.toLocaleString()}</Text>
