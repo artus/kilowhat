@@ -8,11 +8,19 @@ export class Meter {
     readonly id: string,
     readonly name: string,
     readonly description: string,
-    readonly dials: Dial[] = []
+    public dials: Dial[] = []
   ) {
     idValidator(id);
     meterNameValidator(name);
     meterDescriptionValidator(description);
     meterDialsValidator(dials);
+  }
+
+  addDial(dial: Dial): void {
+    this.dials.push(dial);
+  }
+
+  removeDial(dial: Dial): void {
+    this.dials = this.dials.filter(currentDial => currentDial.id !== dial.id);
   }
 }

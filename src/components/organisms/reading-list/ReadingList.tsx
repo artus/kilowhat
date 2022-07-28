@@ -1,9 +1,8 @@
-import { DateTime } from "luxon"
-import { useState } from "react"
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { Dial } from "../../../domain/Dial"
 import { Reading } from "../../../domain/Reading"
 import { useMeterManager } from "../../../hooks/useMeterManager"
+import { useNavigationManager } from "../../../hooks/useNavigationManager"
 import { colors } from "../../../styles/Colors"
 import { sizing } from "../../../styles/Sizing"
 import { LeftMarginSpacer } from "../../atoms/spacers/LeftMarginSpacer"
@@ -13,13 +12,16 @@ import { ClickableIcon } from "../../molecules/clickable-icon/ClickableIcon"
 import { ReadingDisplay } from "../../molecules/reading-display/ReadingDisplay"
 
 interface ReadingListProps {
-  dial: Dial
+  dial: Dial,
+  onReadingRemoved: () => void
 }
 
-export const ReadingList: React.FC<ReadingListProps> = ({ dial }) => {
+export const ReadingList: React.FC<ReadingListProps> = ({
+  dial,
+  onReadingRemoved
+}) => {
 
   const { persist } = useMeterManager();
-  const [dialState, setDialState] = useState({ dial, lastUpdate: DateTime.now() });
 
   const removeReading = (reading: Reading) => {
     Alert.alert(
@@ -29,7 +31,7 @@ export const ReadingList: React.FC<ReadingListProps> = ({ dial }) => {
         {
           text: 'Yes', onPress: () => {
             dial.removeReading(reading);
-            setDialState({ dial, lastUpdate: DateTime.now() });
+            onReadingRemoved();
             persist();
           }
         },
@@ -39,7 +41,7 @@ export const ReadingList: React.FC<ReadingListProps> = ({ dial }) => {
   }
 
   return <>
-    {dialState.dial.getOrderedReadings().map((reading, index) => {
+    {dial.getOrderedReadings().map((reading, index) => {
       return <ListItem key={index}>
         <View style={styles.readingListItem}>
           <Text>{reading.timestamp.toLocaleString()}</Text>
@@ -57,10 +59,10 @@ export const ReadingList: React.FC<ReadingListProps> = ({ dial }) => {
         </View>
       </ListItem>
     })}
-    {!dialState.dial.readings.length && <MarginSpacer
+    {!dial.readings.length && <MarginSpacer
       size={sizing.margin.extraSmall}
     >
-      <Text style={{alignSelf: "center"}}>No readings yet.</Text>
+      <Text style={{ alignSelf: "center" }}>No readings yet.</Text>
     </MarginSpacer>}
   </>
 }

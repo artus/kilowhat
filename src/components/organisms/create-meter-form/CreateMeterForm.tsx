@@ -3,17 +3,22 @@ import { meterDescriptionValidator, meterNameValidator } from "../../../domain/v
 import { useSubmitButton } from "../../../hooks/forms/useSubmitButton"
 import { useTextInput } from "../../../hooks/forms/useTextInput"
 import { useMeterManager } from "../../../hooks/useMeterManager"
-import { useNavigationManager } from "../../../hooks/useNavigationManager"
+import { OnAfter, useNavigationManager } from "../../../hooks/useNavigationManager"
 import { Card } from "../../atoms/card/Card"
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react"
 import { ErrorMessage } from "../../atoms/text/ErrorMessage"
 import { showSuccessToast } from "../../../helpers/ToastHelper"
 
-export const CreateMeterForm: React.FC = () => {
+interface CreateMeterFormProps {
+  onMeterCreated: OnAfter<Meter>
+}
+
+export const CreateMeterForm: React.FC<CreateMeterFormProps> = ({
+  onMeterCreated
+}) => {
 
   const { addMeter } = useMeterManager();
-  const navigationManager = useNavigationManager();
   const [error, setError] = useState<string>();
 
   const nameInput = useTextInput({
@@ -46,7 +51,7 @@ export const CreateMeterForm: React.FC = () => {
       );
 
       addMeter(meter);
-      navigationManager.toCreateDial(meter);
+      onMeterCreated(meter);
       showSuccessToast(`Created meter ${name}`);
     } catch (error) {
       setError((error as Error).message);
@@ -61,7 +66,7 @@ export const CreateMeterForm: React.FC = () => {
   });
 
   return <Card>
-    {error && <ErrorMessage>{error}</ErrorMessage>}
+    {!!error && <ErrorMessage>{error}</ErrorMessage>}
     {nameInput.jsx}
     {descriptionInput.jsx}
     {createMeterButton.jsx}

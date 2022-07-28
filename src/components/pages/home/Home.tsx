@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Text, View } from "react-native";
 import { useMeterManager } from "../../../hooks/useMeterManager";
+import { useRefresh } from "../../../hooks/useRefresh";
 import { SearchBar } from "../../molecules/search-bar/SearchBar";
 import { MeterCard } from "../../organisms/meter-card/MeterCard";
 import { PageContainer } from "../../templates/page-container/PageContainer";
@@ -29,8 +30,8 @@ export const Home: React.FC = () => {
     />
     {
       meters.length
-        ? visibleMeters.map((meter, index) => {
-          return <MeterCard meter={meter} key={index} />
+        ? visibleMeters.map((meter) => {
+          return <MeterCard meter={meter} key={`${meter.name}-${meter.id}-${meter.description}`} />
         })
         : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text>No meters added yet.</Text>

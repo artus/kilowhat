@@ -1,8 +1,6 @@
-import { meterDescriptionValidator, meterNameValidator } from "../../../domain/validators/MeterValidators"
 import { useSubmitButton } from "../../../hooks/forms/useSubmitButton"
-import { useTextInput } from "../../../hooks/forms/useTextInput"
 import { useMeterManager } from "../../../hooks/useMeterManager"
-import { useNavigationManager } from "../../../hooks/useNavigationManager"
+import { OnAfter } from "../../../hooks/useNavigationManager"
 import { Card } from "../../atoms/card/Card"
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react"
@@ -15,21 +13,19 @@ import { readingValueValidator } from "../../../domain/validators/ReadingValidat
 import { Reading } from "../../../domain/Reading"
 import { DateTime } from "luxon"
 import { TimestampInputField } from "../../atoms/input/TimestampInputField"
-import { Meter } from "../../../domain/Meter"
 import { ReadingComparison } from "../../molecules/reading-comparison/ReadingComparison"
 
 interface CreateReadingFormProps {
   dial: Dial,
-  meter: Meter
+  onReadingCreated: OnAfter<Reading>
 }
 
 export const CreateReadingForm: React.FC<CreateReadingFormProps> = ({
   dial,
-  meter
+  onReadingCreated
 }) => {
 
   const { persist } = useMeterManager();
-  const navigationManager = useNavigationManager();
   const [error, setError] = useState<string>();
 
   const [timestamp, setTimestamp] = useState<DateTime>(DateTime.now());
@@ -48,9 +44,9 @@ export const CreateReadingForm: React.FC<CreateReadingFormProps> = ({
         timestamp
       );
 
-      dial.readings.push(reading);
+      dial.addReading(reading);
       persist();
-      navigationManager.back();
+      onReadingCreated(reading);
       showSuccessToast(`Added a new reading to dial ${dial.name}`);
     } catch (error) {
       setError((error as Error).message);

@@ -5,7 +5,7 @@ import { dialNameValidator } from "../../../domain/validators/DialValidators"
 import { useSelectInput } from "../../../hooks/forms/useSelectInput"
 import { useSubmitButton } from "../../../hooks/forms/useSubmitButton"
 import { useTextInput } from "../../../hooks/forms/useTextInput"
-import { useNavigationManager } from "../../../hooks/useNavigationManager"
+import { OnAfter, useNavigationManager } from "../../../hooks/useNavigationManager"
 import { useUnitManager } from "../../../hooks/useUnitManager"
 import { Card } from "../../atoms/card/Card"
 import { PickerEntry } from "../../atoms/input/SelectInputField"
@@ -15,10 +15,11 @@ import { useMeterManager } from "../../../hooks/useMeterManager"
 import { ErrorMessage } from "../../atoms/text/ErrorMessage"
 import { showSuccessToast } from "../../../helpers/ToastHelper"
 import { Alert } from "react-native"
+import { useRefresh } from "../../../hooks/useRefresh"
 
 interface CreateDialFormProms {
   meter: Meter,
-  onDialCreated?: () => void
+  onDialCreated: OnAfter<Dial>
 }
 
 export const CreateDialForm: React.FC<CreateDialFormProms> = ({
@@ -27,7 +28,7 @@ export const CreateDialForm: React.FC<CreateDialFormProms> = ({
 }: CreateDialFormProms) => {
 
   const { units } = useUnitManager();
-  const meterManager = useMeterManager();
+  const { persist } = useMeterManager();
   const navigationManager = useNavigationManager();
   const [error, setError] = useState<string>();
 
@@ -78,8 +79,8 @@ export const CreateDialForm: React.FC<CreateDialFormProms> = ({
         name,
         selectedUnit
       )
-      meter.dials.push(newDial);
-      meterManager.persist();
+      meter.addDial(newDial);
+      persist();
 
       Alert.alert(
         'Create another one?',
@@ -91,7 +92,7 @@ export const CreateDialForm: React.FC<CreateDialFormProms> = ({
               navigationManager.toCreateDial(meter, onDialCreated);
             }
           },
-          { text: 'No', style: 'cancel', onPress: onDialCreated || navigationManager.toRoot }
+          { text: 'No', style: 'cancel', onPress: () => onDialCreated(newDial)}
         ]
       );
 

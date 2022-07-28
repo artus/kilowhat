@@ -7,7 +7,7 @@ import { useNavigationManager } from "../../../hooks/useNavigationManager";
 import { sizing } from "../../../styles/Sizing";
 import { PaddingSpacer } from "../../atoms/spacers/PaddingSpacer";
 import { TopSpacer } from "../../atoms/spacers/TopSpacer";
-import { CardTitle } from "../../molecules/card-title/CardTitle";
+import { PageTitle } from "../../molecules/page-title/PageTitle";
 
 interface MeterPageTitleProps {
   meter: Meter
@@ -39,31 +39,33 @@ export const MeterPageTitle: React.FC<MeterPageTitleProps> = ({
 
   const menuEntries = [
     {
-      text: "Add dial", onClick: () => navigationManager.toCreateDial(meter, () => {
+      text: "Add dial",
+      onClick: () => navigationManager.toCreateDial(meter, () => {
         navigationManager.toMeter(meter);
       })
     },
-    { text: "Edit meter", onClick: () => navigationManager.toUpdateMeter(meter) },
-    { text: "Remove meter", onClick: removeMeter }
+    {
+      text: "Edit meter",
+      onClick: () => navigationManager.toUpdateMeter(meter, navigationManager.toMeter)
+    },
+    {
+      text: "Remove meter",
+      onClick: removeMeter
+    }
   ];
 
-  return <View style={styles.meterPageTitle}>
-    <CardTitle
+  return <View>
+    <PageTitle
       title={meter.name}
-      onClick={() => menuManager.show(menuEntries)}
+      onMenuPress={() => menuManager.show(menuEntries)}
     />
     {!!meter.description && <>
-      <PaddingSpacer>
+      <PaddingSpacer
+        size={sizing.padding.large}
+      >
         <Text>{meter.description}</Text>
       </PaddingSpacer>
     </>}
+    <TopSpacer />
   </View>
 }
-
-const styles = StyleSheet.create({
-  meterPageTitle: {
-    paddingLeft: sizing.padding.medium,
-    paddingRight: sizing.padding.medium,
-    marginBottom: sizing.margin.medium
-  }
-});

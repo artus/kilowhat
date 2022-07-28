@@ -1,27 +1,19 @@
 import { Dial } from "../../../domain/Dial"
-import { getChartColorForUnit } from "../../../helpers/ChartColorHelper"
-import { colors } from "../../../styles/Colors"
-import { sizing } from "../../../styles/Sizing"
-import { LineChart } from "../../atoms/charts/LineChart"
-import { TopSpacer } from "../../atoms/spacers/TopSpacer"
+import { ReadingChart } from "./ReadingsChart"
 
 interface LatestReadingChartProps {
-  dial: Dial
+  dial: Dial,
+  onPress?: () => void | Promise<void>
 }
 
 export const LatestReadingChart: React.FC<LatestReadingChartProps> = ({
-  dial
+  dial,
+  onPress
 }) => {
-  return dial.readings.length > 1
-    ? <>
-      <TopSpacer height={sizing.padding.small} />
-      <LineChart
-        dataset={dial.getOrderedReadings().map(reading => reading.value).slice(-5)}
-        height={75}
-        backgroundColor={getChartColorForUnit(dial.unit)}
-        color={colors.white}
-      />
-    </>
-    : <></>
-
+  return <ReadingChart
+    dial={dial}
+    limit={5}
+    text={'Last 5 readings'}
+    onPress={onPress}
+  />
 }

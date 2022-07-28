@@ -14,7 +14,7 @@ export const LatestReadingDisplay: React.FC<LatestReadingDisplayProps> = ({
 }) => {
   const latestReadingDisplay = dial.hasReadings()
     ? <ReadingDisplay reading={dial.getLatestReading()} />
-    : <MarginSpacer size={sizing.margin.extraSmall}><Text>No readings yet.</Text></MarginSpacer>;
+    : <Text>No readings yet.</Text>
 
   return <MarginSpacer
     left={false}

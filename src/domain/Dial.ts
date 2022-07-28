@@ -32,6 +32,10 @@ export class Dial {
     return orderedReadings[orderedReadings.length - 1];
   }
 
+  addReading(reading: Reading): void {
+    this.readings.push(reading);
+  }
+
   removeReading(reading: Reading): void {
     this.readings = this.readings.filter(currentReading => {
       return currentReading.id !== reading.id

@@ -10,6 +10,9 @@ export const UpdateMeter: React.FC<UpdateMeterProps> = ({
 }: UpdateMeterProps) => {
 
   return <PageContainer>
-    <UpdateMeterForm meter={route.params.meter} />
+    <UpdateMeterForm
+      meter={route.params.meter}
+      onMeterUpdated={route.params.onMeterUpdated}
+    />
   </PageContainer>
 }

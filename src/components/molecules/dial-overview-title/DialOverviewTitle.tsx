@@ -8,15 +8,17 @@ import { useNavigationManager } from "../../../hooks/useNavigationManager";
 import { Meter } from "../../../domain/Meter";
 
 interface DialOverviewTitleProps {
-  dial: Dial,
   meter: Meter,
-  isFirst?: boolean
+  dial: Dial,
+  isFirst?: boolean,
+  onReadingCreated: () => void
 }
 
 export const DialOverviewTitle: React.FC<DialOverviewTitleProps> = ({
-  dial,
   meter,
-  isFirst = false
+  dial,
+  isFirst = false,
+  onReadingCreated
 }) => {
 
   const navigationManager = useNavigationManager();
@@ -24,10 +26,10 @@ export const DialOverviewTitle: React.FC<DialOverviewTitleProps> = ({
   return <View style={styles(isFirst).dialOverviewTitle}>
     <DialTitle
       dial={dial}
-      onTitlePress={() => { navigationManager.toDial(dial); }}
+      onTitlePress={() => { navigationManager.toDial(meter, dial); }}
     />
     <TouchableOpacity
-      onPress={() => navigationManager.toCreateReading(meter, dial)}
+      onPress={() => navigationManager.toCreateReading(dial, onReadingCreated)}
     >
       <Ionicons
         name="add-circle-outline"

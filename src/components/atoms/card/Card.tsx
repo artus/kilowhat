@@ -1,9 +1,23 @@
-import { StyleSheet, View } from "react-native"
+import { ReactNode } from "react"
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { colors } from "../../../styles/Colors"
 import { sizing } from "../../../styles/Sizing"
 
-export const Card: React.FC = ({ children }) => {
-  return <View style={styles.card}>
+interface CardProps {
+  style?: StyleProp<ViewStyle>,
+  children: ReactNode
+}
+
+export const Card: React.FC<CardProps> = ({ 
+  children,
+  style
+}) => {
+
+  const innerStyles = !!style
+    ? [ styles.card, style ]
+    : styles.card
+
+  return <View style={innerStyles}>
     {children}
   </View>
 }
@@ -11,7 +25,6 @@ export const Card: React.FC = ({ children }) => {
 const styles = StyleSheet.create({
   card: {
     padding: sizing.padding.small,
-    paddingBottom: 0,
     backgroundColor: colors.white,
     margin: sizing.margin.medium,
     marginTop: 0,

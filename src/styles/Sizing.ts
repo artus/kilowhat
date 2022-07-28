@@ -15,6 +15,7 @@ export const sizing = {
   fonts: {
     h1: 24,
     h2: 18,
-    h3: 14
+    h3: 14,
+    subText: 8
   }
 }

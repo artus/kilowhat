@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { Dial } from "../../../domain/Dial"
 import { Meter } from "../../../domain/Meter"
+import { useNavigationManager } from "../../../hooks/useNavigationManager"
 import { sizing } from "../../../styles/Sizing"
 import { LatestReadingChart } from "../../molecules/charts/LatestReadingsChart"
 import { DialOverviewTitle } from "../../molecules/dial-overview-title/DialOverviewTitle"
@@ -10,20 +11,32 @@ interface DialInfoProps {
   meter: Meter,
   dial: Dial,
   isLast?: boolean,
-  isFirst?: boolean
+  isFirst?: boolean,
+  onReadingCreated: () => void
 }
 
 export const DialInfo: React.FC<DialInfoProps> = ({
-  meter,
   dial,
   isLast = false,
-  isFirst = false
+  isFirst = false,
+  meter,
+  onReadingCreated
 }: DialInfoProps) => {
 
+  const { toMeter } = useNavigationManager();
+
   return <View style={styles(isLast).dialInfo}>
-    <DialOverviewTitle dial={dial} meter={meter} isFirst={isFirst} />
+    <DialOverviewTitle
+      meter={meter}
+      dial={dial}
+      isFirst={isFirst}
+      onReadingCreated={onReadingCreated}
+    />
     <LatestReadingDisplay dial={dial} />
-    <LatestReadingChart dial={dial} />
+    <LatestReadingChart
+      onPress={() => toMeter(meter)}
+      dial={dial}
+    />
   </ View>
 }
 

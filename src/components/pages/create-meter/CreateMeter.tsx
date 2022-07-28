@@ -1,10 +1,16 @@
-import { ScrollView, Text, View } from "react-native"
-import { Card } from "../../atoms/card/Card"
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { CreateMeterForm } from "../../organisms/create-meter-form/CreateMeterForm"
 import { PageContainer } from "../../templates/page-container/PageContainer"
+import { RootStackParamList } from "../../templates/page-container/Wrapper";
 
-export const CreateMeter: React.FC = () => {
+type CreateMeterProps = NativeStackScreenProps<RootStackParamList, 'CreateMeter'>;
+
+export const CreateMeter: React.FC<CreateMeterProps> = ({
+  route
+}) => {
   return <PageContainer>
-    <CreateMeterForm />
+    <CreateMeterForm 
+      onMeterCreated={route.params.onMeterCreated}
+    />
   </PageContainer>
 }

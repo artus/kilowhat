@@ -3,6 +3,7 @@ import React from "react";
 import { Dial } from "../../../domain/Dial";
 import { Meter } from "../../../domain/Meter";
 import { useMeterManager } from "../../../hooks/useMeterManager";
+import { OnAfter } from "../../../hooks/useNavigationManager";
 import { Loader } from "../../atoms/loader/Loader";
 import { CreateDial } from "../../pages/create-dial/CreateDial";
 import { CreateMeter } from "../../pages/create-meter/CreateMeter";
@@ -19,12 +20,12 @@ const Stack = createNativeStackNavigator();
 
 export type RootStackParamList = {
   Home: undefined,
-  CreateMeter: undefined,
-  UpdateMeter: { meter: Meter };
-  CreateDial: { meter: Meter, onDialCreated?: () => void },
+  CreateMeter: { onMeterCreated: OnAfter },
+  UpdateMeter: { meter: Meter, onMeterUpdated: OnAfter };
+  CreateDial: { meter: Meter, onDialCreated: OnAfter },
   MeterPage: { meter: Meter },
-  CreateReading: { meter: Meter, dial: Dial },
-  DialPage: { dial: Dial }
+  CreateReading: { meter: Meter, dial: Dial, onReadingCreated: OnAfter },
+  DialPage: { meter: Meter, dial: Dial }
 }
 
 export const Wrapper: React.FC = () => {

@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
     <View style={styles.footer}>
       <FooterButton
         icon="add-circle-outline"
-        onPress={() => { navigationManager.toCreateMeter(); }}
+        onPress={() => { navigationManager.toCreateMeter(navigationManager.toRoot); }}
         text="Add meter"
       />
       <FooterButton

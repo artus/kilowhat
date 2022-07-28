@@ -9,8 +9,8 @@ export const CreateDial: React.FC<CreateDialProps> = ({ route }) => {
 
   return <PageContainer>
     <CreateDialForm
-      meter={route.params.meter}
       onDialCreated={route.params.onDialCreated}
+      meter={route.params.meter}
     />
   </PageContainer>
 }

@@ -11,7 +11,7 @@ export const CreateReading: React.FC<CreateReadingProps> = ({ route }) => {
   return <PageContainer>
     <CreateReadingForm
       dial={route.params.dial}
-      meter={route.params.meter}
+      onReadingCreated={route.params.onReadingCreated}
     />
   </PageContainer>
 }

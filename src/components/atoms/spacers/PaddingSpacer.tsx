@@ -23,8 +23,8 @@ export const PaddingSpacer: React.FC<PaddingSpacerProps> = ({
 }) => {
 
   const innerStyles = !!style
-    ? [style, styles(size, left, right, top, bottom).paddingSpacer]
-    : styles(size, left, right, top, bottom).paddingSpacer;
+    ? [style, styles(left, right, top, bottom).paddingSpacer]
+    : styles(left, right, top, bottom).paddingSpacer;
 
   return <View
     style={innerStyles}
@@ -34,7 +34,6 @@ export const PaddingSpacer: React.FC<PaddingSpacerProps> = ({
 }
 
 const styles = (
-  size: number | string,
   left: number | string,
   right: number | string,
   top: number | string ,

@@ -1,21 +1,25 @@
+import { useState } from "react"
 import { Meter } from "../../../domain/Meter"
 import { meterDescriptionValidator, meterNameValidator } from "../../../domain/validators/MeterValidators"
 import { useSubmitButton } from "../../../hooks/forms/useSubmitButton"
 import { useTextInput } from "../../../hooks/forms/useTextInput"
 import { useMeterManager } from "../../../hooks/useMeterManager"
-import { useNavigationManager } from "../../../hooks/useNavigationManager"
+import { OnAfter, useNavigationManager } from "../../../hooks/useNavigationManager"
 import { Card } from "../../atoms/card/Card"
+import { ErrorMessage } from "../../atoms/text/ErrorMessage"
 
 interface UpdateMeterFormProps {
-  meter: Meter
+  meter: Meter,
+  onMeterUpdated: OnAfter<Meter>
 }
 
 export const UpdateMeterForm: React.FC<UpdateMeterFormProps> = ({
-  meter
+  meter,
+  onMeterUpdated
 }: UpdateMeterFormProps) => {
 
   const { updateMeter } = useMeterManager();
-  const navigationManager = useNavigationManager();
+  const [error, setError] = useState('');
 
   const nameInput = useTextInput({
     defaultValue: meter.name,
@@ -40,16 +44,20 @@ export const UpdateMeterForm: React.FC<UpdateMeterFormProps> = ({
   });
 
   const onClick = async (stopLoading: () => void) => {
-    const updatedMeter = new Meter(
-      meter.id,
-      nameInput.formValue.value!,
-      descriptionInput.formValue.value!,
-      meter.dials
-    );
+    try {
+      const updatedMeter = new Meter(
+        meter.id,
+        nameInput.formValue.value!,
+        descriptionInput.formValue.value!,
+        meter.dials
+      );
 
-    updateMeter(updatedMeter);
+      updateMeter(updatedMeter);
+      onMeterUpdated(updatedMeter);
+    } catch (error) {
+      setError((error as Error).message);
+    }
     stopLoading();
-    navigationManager.toRoot();
   };
 
   const createMeterButton = useSubmitButton({
@@ -59,6 +67,7 @@ export const UpdateMeterForm: React.FC<UpdateMeterFormProps> = ({
   });
 
   return <Card>
+    {!!error && <ErrorMessage>{error}</ErrorMessage>}
     {nameInput.jsx}
     {descriptionInput.jsx}
     {createMeterButton.jsx}
