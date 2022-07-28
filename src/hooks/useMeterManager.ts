@@ -7,6 +7,7 @@ const initialState = {
   loading: true,
   meters: [] as Meter[],
   addMeter: (meter: Meter) => {},
+  addMeters: (meters: Meter[]) => {},
   removeMeter: (meter: Meter) => {},
   updateMeter: (meter: Meter) => {},
   persist: () => {}
@@ -36,6 +37,10 @@ const useMeterManagerImpl = () => {
     setMeters([...meters, meter]);
   }
 
+  const addMeters = async (newMeters: Meter[]) => {
+    setMeters([...meters, ...newMeters])
+  }
+
   const updateMeter = async (meter: Meter) => {
     const updatedMeters = meters.map(currentMeter => {
       if (currentMeter.id === meter.id) {
@@ -57,6 +62,7 @@ const useMeterManagerImpl = () => {
   return {
     meters, 
     addMeter,
+    addMeters,
     updateMeter,
     removeMeter,
     persist,

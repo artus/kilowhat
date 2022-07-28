@@ -5,6 +5,7 @@ import { DialOverviewTitle } from "../../molecules/dial-overview-title/DialOverv
 import { sizing } from "../../../styles/Sizing"
 import { LatestReadingDisplay } from "../../molecules/reading-display/LatestReadingDisplay"
 import { ReadingChart } from "../../molecules/charts/ReadingsChart"
+import { DialStats } from "../../molecules/dial-stats/DialStats"
 
 interface DialOverviewProps {
   meter: Meter,
@@ -28,6 +29,7 @@ export const DialOverview: React.FC<DialOverviewProps> = ({
       onReadingCreated={onReadingCreated}
     />
     <LatestReadingDisplay dial={dial} />
+    <DialStats dial={dial} />
     <ReadingChart
       dial={dial}
       text={`All readings`}

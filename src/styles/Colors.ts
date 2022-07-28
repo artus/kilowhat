@@ -18,6 +18,7 @@ export const colors = {
   gray: 'gray',
   lightGray: 'lightgray',
   extraLightGray: '#F6F6F6',
+  red: 'firebrick',
   charts: {
     electricity: "#DF7920",
     water: "#237AB7",

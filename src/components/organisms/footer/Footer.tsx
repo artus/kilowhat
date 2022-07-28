@@ -16,13 +16,30 @@ export const Footer: React.FC = () => {
     <View style={styles.footer}>
       <FooterButton
         icon="add-circle-outline"
-        onPress={() => { navigationManager.toCreateMeter(navigationManager.toRoot); }}
+        onPress={() => {
+          navigationManager.toRoot();
+          navigationManager.toCreateMeter(createdMeter => {
+            navigationManager.toRoot();
+            navigationManager.toCreateDial(createdMeter, navigationManager.toRoot);
+          });
+        }}
         text="Add meter"
       />
       <FooterButton
         icon="list-outline"
-        onPress={() => { navigationManager.toUnits(); }}
+        onPress={() => {
+          navigationManager.toRoot();
+          navigationManager.toUnits();
+        }}
         text="Units"
+      />
+      <FooterButton
+        icon="settings-outline"
+        onPress={() => {
+          navigationManager.toRoot();
+          navigationManager.toSettings();
+        }}
+        text="Settings"
       />
     </View>
   </View>
@@ -33,7 +50,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: 20,
-    bottom: 60 
+    bottom: 60
   },
   footerBackground: {
     flexDirection: "column",

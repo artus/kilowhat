@@ -1,3 +1,4 @@
+import { DateTime } from "luxon"
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { Dial } from "../../../domain/Dial"
 import { Reading } from "../../../domain/Reading"
@@ -44,7 +45,7 @@ export const ReadingList: React.FC<ReadingListProps> = ({
     {dial.getOrderedReadings().map((reading, index) => {
       return <ListItem key={index}>
         <View style={styles.readingListItem}>
-          <Text>{reading.timestamp.toLocaleString()}</Text>
+          <Text>{reading.timestamp.toLocaleString(DateTime.DATE_SHORT)}</Text>
           <View style={styles.readingDisplayGroup}>
             <ReadingDisplay reading={reading} />
             <LeftMarginSpacer>

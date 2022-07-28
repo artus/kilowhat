@@ -1,12 +1,23 @@
+import { ReactNode } from "react";
 import { StyleSheet, Text } from "react-native";
+import { colors } from "../../../styles/Colors";
 import { sizing } from "../../../styles/Sizing";
 
-export const MenuEntryText: React.FC = ({ children }) => {
-  return <Text style={styles.menuEntryText}>{children}</Text>
+interface MenuEntryTextProps {
+  color?: string,
+  children: ReactNode
+}
+
+export const MenuEntryText: React.FC<MenuEntryTextProps> = ({ 
+  children,
+  color = colors.black
+}) => {
+  return <Text style={styles(color).menuEntryText}>{children}</Text>
 };
 
-const styles = StyleSheet.create({
+const styles = (color: string) => StyleSheet.create({
   menuEntryText: {
+    color,
     fontSize: 20,
     textAlign: "center",
     padding: sizing.padding.extraSmall

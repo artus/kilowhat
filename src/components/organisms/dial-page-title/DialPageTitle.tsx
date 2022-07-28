@@ -5,6 +5,7 @@ import { showSuccessToast } from "../../../helpers/ToastHelper";
 import { useMenuManager } from "../../../hooks/useMenuManager";
 import { useMeterManager } from "../../../hooks/useMeterManager";
 import { useNavigationManager } from "../../../hooks/useNavigationManager";
+import { colors } from "../../../styles/Colors";
 import { sizing } from "../../../styles/Sizing";
 import { PaddingSpacer } from "../../atoms/spacers/PaddingSpacer";
 import { PageTitle } from "../../molecules/page-title/PageTitle";
@@ -44,7 +45,7 @@ export const DialPageTitle: React.FC<DialPageTitleProps> = ({
 
   const menuEntries = [
     { text: 'Add reading', onClick: () => { navigationManager.toCreateReading(dial, afterCreateReading); }},
-    { text: "Remove dial", onClick: removeDial}
+    { text: "Remove dial", onClick: removeDial, color: colors.red }
   ];
 
   return <View>

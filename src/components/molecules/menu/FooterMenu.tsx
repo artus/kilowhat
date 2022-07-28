@@ -6,7 +6,8 @@ import { FooterPopup } from "../../atoms/popups/FooterPopup";
 
 export interface MenuEntry {
   text: string,
-  onClick: () => void | Promise<void>
+  onClick: () => void | Promise<void>,
+  color?: string
 }
 
 export const FooterMenu: React.FC = () => {
@@ -24,6 +25,7 @@ export const FooterMenu: React.FC = () => {
           text={entry.text}
           onClick={entry.onClick}
           isLast={index === menuManager.entries.length - 1}
+          color={entry.color}
         />)}
       </FooterPopup>
     </View>

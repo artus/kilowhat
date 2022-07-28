@@ -6,19 +6,21 @@ import { MenuEntryText } from "../text/MenuEntryText"
 interface MenuEntryProps {
   text: string,
   onClick: () => void | Promise<void>,
-  isLast: boolean
+  isLast: boolean,
+  color?: string
 }
 
 export const MenuEntry: React.FC<MenuEntryProps> = ({
   text,
   onClick,
-  isLast
+  isLast,
+  color
 }: MenuEntryProps) => {
   return <TouchableOpacity
     style={styles(isLast).menuEntry}
     onPress={onClick}
   >
-    <MenuEntryText>{text}</MenuEntryText>
+    <MenuEntryText color={color}>{text}</MenuEntryText>
   </TouchableOpacity>
 }
 

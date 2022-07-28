@@ -5,6 +5,7 @@ import { useMenuManager } from "../../../hooks/useMenuManager"
 import { useMeterManager } from "../../../hooks/useMeterManager"
 import { useNavigationManager } from "../../../hooks/useNavigationManager"
 import { useRefresh } from "../../../hooks/useRefresh"
+import { colors } from "../../../styles/Colors"
 import { sizing } from "../../../styles/Sizing"
 import { Card } from "../../atoms/card/Card"
 import { CardTitle } from "../../molecules/card-title/CardTitle"
@@ -43,7 +44,7 @@ export const MeterCard: React.FC<MeterCardProps> = ({
   const menuEntries = [
     { text: "Add dial", onClick: () => navigationManager.toCreateDial(innerMeter, () =>  navigationManager.toRoot()) },
     { text: "Edit meter", onClick: () => navigationManager.toUpdateMeter(innerMeter, () => navigationManager.back()) },
-    { text: "Remove meter", onClick: removeMeter }
+    { text: "Remove meter", onClick: removeMeter, color: colors.red  }
   ]
 
   return <Card style={styles.meterCard}>

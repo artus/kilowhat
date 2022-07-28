@@ -20,7 +20,8 @@ const useMenuManagerImpl = () => {
       onClick: () => {
         hide();
         entry.onClick()
-      }
+      },
+      color: entry.color
     }));
 
     setState({

@@ -32,6 +32,42 @@ export class Dial {
     return orderedReadings[orderedReadings.length - 1];
   }
 
+  getEarliestReading(): Reading {
+    const orderedReadings = this.getOrderedReadings();
+    return orderedReadings[0];
+  }
+
+  getDailyAverageConsumption(): number {
+    const latestReading = this.getLatestReading();
+    const earliestReading = this.getEarliestReading();
+
+    const duration = latestReading.timestamp.diff(earliestReading.timestamp, [ 'days' ]);
+
+    if (duration.days > 0) {
+      return this.getConsumptionSinceFirstReading() / duration.days;
+    } else {
+      return latestReading.value
+    }
+  }
+
+  getConsumptionSinceFirstReading(): number {
+    return this.getLatestReading().value - this.getEarliestReading().value;
+  }
+
+  getAveragePerReading(): number {
+    let sum = 0;
+    let previousReading = this.getEarliestReading();
+    const allReadings = this.getOrderedReadings();
+
+    for (let i = 1; i < allReadings.length; i++) {
+      const currentReading = allReadings[i];
+      sum += currentReading.value - previousReading.value;
+      previousReading = currentReading
+    }
+
+    return sum / allReadings.length;
+  }
+
   addReading(reading: Reading): void {
     this.readings.push(reading);
   }

@@ -16,7 +16,8 @@ const initialState = {
   toMeter: () => { },
   toUnits: () => { },
   toCreateReading: () => {},
-  toDial: () => {}
+  toDial: () => {},
+  toSettings: () => {}
 }
 
 const useNavigationManagerImpl = () => {
@@ -69,6 +70,10 @@ const useNavigationManagerImpl = () => {
     navigation.navigate('DialPage' as never, { meter, dial })
   }
 
+  const toSettings = () => {
+    navigation.navigate('SettingsPage' as never);
+  }
+
   return {
     toRoot,
     back,
@@ -79,7 +84,8 @@ const useNavigationManagerImpl = () => {
     toMeter,
     toUnits,
     toCreateReading,
-    toDial
+    toDial,
+    toSettings
   }
 }
 
